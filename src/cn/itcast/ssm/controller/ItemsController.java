@@ -1,7 +1,9 @@
 package cn.itcast.ssm.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,11 +32,24 @@ import cn.itcast.ssm.service.impl.ItemsServiceImpl;
 @Controller
 // 对url进行分类管理 可以定义一个根路径
 @RequestMapping("/items")
-
 public class ItemsController {
 	@Autowired
 	private ItemsService itemsService;
 
+	
+	@ModelAttribute("itemsTypes")
+	public Map getMap(){
+		Map<String, String> map=new HashMap <String, String>();
+		map.put("101", "电子");
+		map.put("102", "母婴");
+		return map;
+	}
+	
+	
+	
+	
+	
+	
 	/**
 	 * 包装类型的pojo（pojo的属性也是pojo例如ItemsQueryVo）参数绑定 商品名称：
 	 * <input name="itemsCustom.name" /> 注意：itemsCustom和包装pojo中的属性一致即可。
@@ -71,7 +87,7 @@ public class ItemsController {
 
 		ItemsCustom itemsCustom = itemsService.findItemsById(id11);
 		ModelAndView modelAndView = new ModelAndView();
-		modelAndView.addObject("itemsCustom", itemsCustom);
+		modelAndView.addObject("items", itemsCustom);
 		modelAndView.setViewName("/items/editItems");
 		return modelAndView;
 
@@ -106,9 +122,12 @@ public class ItemsController {
 	// @ModelAttribute可以指定pojo回显到页面在request中的key
 	 */
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(	Model model,Integer id,@Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception {
+	public String editItemsSubmit(	Model model,Integer id,
+			@ModelAttribute("items")
+			@Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,
+			BindingResult bindingResult) throws Exception {
 		// 调用service 更新商品信息 页面需要将商品信息传到此方法(用参数绑定)
-	
+	System.out.println("======");
 		// 获取校验错误信息
 				if (bindingResult.hasErrors()) {
 					// 输出错误信息
@@ -123,13 +142,14 @@ public class ItemsController {
 					model.addAttribute("allErrors", allErrors);
 					
 					
-					//可以直接使用model将提交pojo回显到页面
-					model.addAttribute("items", itemsCustom);
+					//如果不用@ModeAttribute可以直接使用model将提交pojo回显到页面
+					// model.addAttribute("items", itemsCustom);
 					
 					// 出错重新到商品修改页面
-					return "/items/editItems";}
+					return "/items/editItems";
+					}
 	itemsService.updateItems(id, itemsCustom);		
-		return "forward:queryItems.action";// 转发时可以利用 request形参共享request
+		return "redirect:queryItems.action";// 转发时可以利用 request形参共享request
 	}
 
 	// 批量删除

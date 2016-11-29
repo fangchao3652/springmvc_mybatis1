@@ -29,13 +29,26 @@ $(document).ready(function(){
 <title>查询商品列表</title>
 </head>
 <body> 
+${param.id }
+--------
+ ${param.name }
+--------------
 <form name ="itemsForm" action="" method="post">
 查询条件：
 <table width="100%" border=1>
 <tr>
 <td>商品名称：<input name="itemsCustom.name" /></td>
+<td><select name="selectType">
+<c:forEach items="${itemsTypes }" var="itemsType">
+<option value="${itemsType.key }">${itemsType.value}</option>
+</c:forEach>
+</select>
+</td>
+
 <td><input type="submit" value="查询" id="queryItems" /></td>
 <td><input type="button" value="批量删除" id="delItems" /></td>
+
+
 </tr>
 </table>
 
