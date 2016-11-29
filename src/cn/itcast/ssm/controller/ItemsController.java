@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.ObjectError;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -94,15 +97,37 @@ public class ItemsController {
 	 * @return
 	 * @throws Exception
 	 *             页面中input的name和controller的pojo形参中的属性名称一致，将页面中数据绑定到pojo。
+	 *             
+	 * // 在需要校验的pojo前边添加@Validated，在需要校验的pojo后边添加BindingResult
+	// bindingResult接收校验出错信息
+	// 注意：@Validated和BindingResult bindingResult是配对出现，并且形参顺序是固定的（一前一后）。
+	// value={ValidGroup1.class}指定使用ValidGroup1分组的 校验
+	// @ModelAttribute可以指定pojo回显到页面在request中的key
 	 */
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(Integer id, ItemsCustom itemsCustom) throws Exception {
+	public String editItemsSubmit(	Model model,Integer id,@Validated ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception {
 		// 调用service 更新商品信息 页面需要将商品信息传到此方法(用参数绑定)
-		itemsService.updateItems(id, itemsCustom);
-		// ...
-		// ModelAndView modelAndView = new ModelAndView();
-		// modelAndView.setViewName("/success");
-		// return modelAndView;
+	
+		// 获取校验错误信息
+				if (bindingResult.hasErrors()) {
+					// 输出错误信息
+					List<ObjectError> allErrors = bindingResult.getAllErrors();
+
+					for (ObjectError objectError : allErrors) {
+						// 输出错误信息
+						System.out.println(objectError.getDefaultMessage());
+
+					}
+					// 将错误信息传到页面
+					model.addAttribute("allErrors", allErrors);
+					
+					
+					//可以直接使用model将提交pojo回显到页面
+					model.addAttribute("items", itemsCustom);
+					
+					// 出错重新到商品修改页面
+					return "/items/editItems";}
+	itemsService.updateItems(id, itemsCustom);		
 		return "forward:queryItems.action";// 转发时可以利用 request形参共享request
 	}
 
