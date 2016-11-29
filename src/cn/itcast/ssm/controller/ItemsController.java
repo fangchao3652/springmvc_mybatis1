@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.sun.org.apache.xpath.internal.SourceTree;
 
+import cn.itcast.ssm.controller.validation.ValidGroup1;
 import cn.itcast.ssm.po.Items;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
@@ -105,7 +106,7 @@ public class ItemsController {
 	// @ModelAttribute可以指定pojo回显到页面在request中的key
 	 */
 	@RequestMapping("/editItemsSubmit")
-	public String editItemsSubmit(	Model model,Integer id,@Validated ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception {
+	public String editItemsSubmit(	Model model,Integer id,@Validated(value={ValidGroup1.class}) ItemsCustom itemsCustom,BindingResult bindingResult) throws Exception {
 		// 调用service 更新商品信息 页面需要将商品信息传到此方法(用参数绑定)
 	
 		// 获取校验错误信息
