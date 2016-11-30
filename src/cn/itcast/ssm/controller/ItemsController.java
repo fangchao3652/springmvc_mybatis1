@@ -17,9 +17,11 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -150,26 +152,27 @@ public class ItemsController {
 			return "/items/editItems";
 		}
 		// 上传图片
-		if (!items_pic .isEmpty()) {
+		if (!items_pic.isEmpty()) {
 			// 存储图片的位置
 			String pic_path = "G:\\FFFFFF\\upload\\temp";
 			String originalFilename = items_pic.getOriginalFilename();
-			//新的图片名称
-			String newFileName=UUID.randomUUID()+originalFilename.substring(originalFilename.lastIndexOf("."));
-			int hash=newFileName.hashCode();
-			String hashStr = Integer.toHexString(hash);//转成十六进制（长度为8） 每一位生成一个文件夹（每一级最多16个目录）
-            char[] hss = hashStr.toCharArray();//转为char型数组
-            String pic="";
-            for (char c : hss) {
-            	pic_path += "\\" + c;
-            	pic+="\\"+c;
-            }
-            new File(pic_path).mkdirs();
-			File newFile=new File(pic_path,newFileName);
-			//将内存中的数据写入磁盘
+			// 新的图片名称
+			String newFileName = UUID.randomUUID() + originalFilename.substring(originalFilename.lastIndexOf("."));
+			int hash = newFileName.hashCode();
+			String hashStr = Integer.toHexString(hash);// 转成十六进制（长度为8）
+														// 每一位生成一个文件夹（每一级最多16个目录）
+			char[] hss = hashStr.toCharArray();// 转为char型数组
+			String pic = "";
+			for (char c : hss) {
+				pic_path += "\\" + c;
+				pic += "\\" + c;
+			}
+			new File(pic_path).mkdirs();
+			File newFile = new File(pic_path, newFileName);
+			// 将内存中的数据写入磁盘
 			items_pic.transferTo(newFile);
-			//如果上传成功 要将新的图片名称 写到itemsCustom中
-			itemsCustom.setPic(pic+"\\"+newFileName);
+			// 如果上传成功 要将新的图片名称 写到itemsCustom中
+			itemsCustom.setPic(pic + "\\" + newFileName);
 		}
 
 		itemsService.updateItems(id, itemsCustom);
@@ -211,6 +214,25 @@ public class ItemsController {
 		// 更新
 		// ......
 		return "/success";
+
+	}
+
+	// 查询商品信息输出json
+	/**
+	 * @PathVariable 用于将请求url中的模板变量{xxx}映射到功能处理方法的参数上
+	 * @param id
+	 * @return
+	 * @throws Exception
+	 * 
+	 * http://localhost:8080/1springmvc_mybatis/items/itemsView/1.action
+	 * 之前配置的控制器是只拦截 *.action
+	 * 要想去掉后边的action要配置一个新的前端控制器  多个控制器可以并存
+	 */
+	@RequestMapping("/itemsView/{id}")
+	public @ResponseBody ItemsCustom itemsView(@PathVariable("id") Integer id12) throws Exception {
+		ItemsCustom itemCustom = itemsService.findItemsById(id12);
+
+		return itemCustom;
 
 	}
 
