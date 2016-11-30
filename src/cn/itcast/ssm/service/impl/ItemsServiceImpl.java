@@ -33,8 +33,12 @@ public class ItemsServiceImpl implements ItemsService {
 		// 对原始的items进行处理
 		// 比如根据日期处理成是否过期
 		//
-		ItemsCustom itemsCustom = new ItemsCustom();
-		BeanUtils.copyProperties(items, itemsCustom);
+		ItemsCustom itemsCustom = null;
+		if(items!=null){
+			itemsCustom=new ItemsCustom();
+			BeanUtils.copyProperties(items, itemsCustom);
+		}
+		
 		return itemsCustom;
 	}
 

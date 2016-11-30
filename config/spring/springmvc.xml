@@ -57,6 +57,8 @@
 		<property name="cacheSeconds" value="120" />
 	</bean>
 
+<!-- 全局异常处理器  要是配置多个 也是 只有一个起作用-->
+<bean class="cn.itcast.ssm.exception.CustomExceptionResolver"></bean>
 
 	<!-- 视图解析器 解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包 -->
 	<bean

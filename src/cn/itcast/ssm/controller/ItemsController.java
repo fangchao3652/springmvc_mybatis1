@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import cn.itcast.ssm.controller.validation.ValidGroup1;
+import cn.itcast.ssm.exception.CustomException;
 import cn.itcast.ssm.po.Items;
 import cn.itcast.ssm.po.ItemsCustom;
 import cn.itcast.ssm.po.ItemsQueryVo;
@@ -86,6 +87,11 @@ public class ItemsController {
 		// 调用service查询商品信息
 
 		ItemsCustom itemsCustom = itemsService.findItemsById(id11);
+		//判断商品为空
+		if(itemsCustom==null){
+			throw new CustomException("要修改的商品不存在！！！");//业务类最好放在service层
+		}
+		
 		ModelAndView modelAndView = new ModelAndView();
 		modelAndView.addObject("items", itemsCustom);
 		modelAndView.setViewName("/items/editItems");
@@ -183,7 +189,8 @@ public class ItemsController {
 	 */
 	@RequestMapping("/editAllItemsSubmit")
 	public  String editAllItemsSubmit(ItemsQueryVo itemsQueryVo)throws Exception{
-		
+		//更新
+		//......
 		return "/success";
 		
 	}
