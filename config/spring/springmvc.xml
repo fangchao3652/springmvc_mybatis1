@@ -60,6 +60,14 @@
 <!-- 全局异常处理器  要是配置多个 也是 只有一个起作用-->
 <bean class="cn.itcast.ssm.exception.CustomExceptionResolver"></bean>
 
+<!-- 文件上传 不配它参数绑定会失败-->
+<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+	<property name="maxUploadSize">
+		<value>5242880</value>
+	</property>
+	<property name="defaultEncoding" value="utf-8"></property>
+</bean>
+
 	<!-- 视图解析器 解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包 -->
 	<bean
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver">

@@ -1,9 +1,2 @@
 /cn/
-/db.properties
-/log4j.properties
-/mybatis/
 /spring/
-/CustomValidationMessages.fds
-/CustomValidationMessages.properties
-/customValMessages.properties
-/customValMessage.properties
