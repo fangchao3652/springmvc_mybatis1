@@ -42,7 +42,7 @@ method="post" enctype="multipart/form-data" >
 <!-- <tr> -->
 	<td>商品图片</td>
 	<td>
-		<c:if test="${items.pic !=null}">
+		<c:if test="${items.pic !=null && not empty items.pic}">
 			<img src="/pic/${items.pic}" width=100 height=100/>
 			<br/>
 		</c:if>
