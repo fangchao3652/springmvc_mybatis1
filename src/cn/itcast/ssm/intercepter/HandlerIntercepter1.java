@@ -22,9 +22,9 @@ public class HandlerIntercepter1 implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		// TODO Auto-generated method stub
-		return false;//false 表示拦截 不向下执行
-		//return true;//放行
+		System.out.println("HandlerIntercepter1----------preHandle");
+		//return false;//false 表示拦截 不向下执行
+		 return true;//放行
 	}
 
 	// 进入handler方法之后，返回modeandview之前执行
@@ -32,7 +32,7 @@ public class HandlerIntercepter1 implements HandlerInterceptor {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("HandlerIntercepter1----------postHandle");
 
 	}
 	//执行完Handler方法 之后
@@ -40,7 +40,7 @@ public class HandlerIntercepter1 implements HandlerInterceptor {
 	@Override
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
-		// TODO Auto-generated method stub
+		System.out.println("HandlerIntercepter1----------afterCompletion");
 
 	}
 }
