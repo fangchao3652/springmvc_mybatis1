@@ -14,6 +14,11 @@ import org.springframework.web.servlet.ModelAndView;
  * 2.springMvc 配置类似全局的拦截器：将配置的拦截器注入到每一个hanlderMapping中
  * @author Fangchao
  *
+ *
+ *1放行 2不放行
+ *HandlerIntercepter1----------preHandle
+ *HandlerIntercepter2----------preHandle
+ *HandlerIntercepter1----------afterCompletion
  */
 public class HandlerIntercepter1 implements HandlerInterceptor {
 

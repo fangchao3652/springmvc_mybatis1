@@ -20,7 +20,7 @@ public class HandlerIntercepter2 implements HandlerInterceptor {
 			throws Exception {
 		System.out.println("HandlerIntercepter2----------preHandle");
 		//return false;//false 表示拦截 不向下执行
-		 return true;//放行
+		 return false;//放行
 	}
 
 	// 进入handler方法之后，返回modeandview之前执行
