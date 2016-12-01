@@ -13,8 +13,9 @@
 		http://www.springframework.org/schema/tx 
 		http://www.springframework.org/schema/tx/spring-tx-3.2.xsd ">
 		<!-- 使用restful之后（前端控制器 配置为拦截 / ）静态资源解析会去找映射器找handler(Controller的@RequestMapping)  这当然找不到 所以要配置静态资源解析 -->
-		<mvc:resources location="/js/" mapping="/js/**"/>
-		<mvc:resources location="/img/" mapping="/img/**"/>
+		   <mvc:resources location="/" mapping="/**"/> <!-- 经实验 /* /**效果一样 都会去找子目录   个人感觉这个配置后后面的两个可以不配置 但是要放在最前面-->
+		  <mvc:resources location="/js/" mapping="/js/**"/> <!-- 不加这句话页面会无法使用js -->
+		<mvc:resources location="/img/" mapping="/img/**"/> <!-- /img/*和 /img/**不一样     /**代表包含子url 使用/img/**时img/aa/1.jpg可以被访问到  而使用/img/*时  /img/bb/1.jpg访问不到  只能访问/img/1.png这样一级目录的 -->
 		
 
 <!-- <bean class="cn.itcast.ssm.controller.ItemsController"></bean> -->
@@ -71,6 +72,17 @@
 	</property>
 	<property name="defaultEncoding" value="utf-8"></property>
 </bean>
+<!-- 拦截器 多个拦截器顺序执行 -->
+<mvc:interceptors>
+	<mvc:interceptor>
+	<mvc:mapping path="/**"/>
+	<bean class="cn.itcast.ssm.intercepter.HandlerIntercepter1"></bean>
+	</mvc:interceptor>
+	<mvc:interceptor>
+	<mvc:mapping path="/**"/>
+	<bean class="cn.itcast.ssm.intercepter.HandlerIntercepter2"></bean>
+	</mvc:interceptor>
+</mvc:interceptors>
 
 	<!-- 视图解析器 解析jsp解析，默认使用jstl标签，classpath下的得有jstl的包 -->
 	<bean
