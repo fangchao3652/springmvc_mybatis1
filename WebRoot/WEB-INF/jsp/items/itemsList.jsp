@@ -33,6 +33,12 @@ ${param.id }
 --------
  ${param.name }
 --------------
+<br>
+当前用户：${sessionScope.username}
+<c:if test="${not empty  sessionScope.username}">
+<a href="${pageContext.request.contextPath}/logout.action">注销</a>
+</c:if>
+
 <form name ="itemsForm" action="" method="post">
 查询条件：
 <table width="100%" border=1>

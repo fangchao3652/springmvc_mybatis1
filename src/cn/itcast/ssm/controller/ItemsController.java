@@ -47,6 +47,7 @@ public class ItemsController {
 		Map<String, String> map = new HashMap<String, String>();
 		map.put("101", "电子");
 		map.put("102", "母婴");
+		 
 		return map;
 	}
 

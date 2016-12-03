@@ -36,7 +36,7 @@ public class HandlerIntercepter1 implements HandlerInterceptor {
 	//应用场景从modeAndView出发：将公用的模型数据（比如菜单导航）在这里放入视图 也可以统一指定视图
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
-			ModelAndView modelAndView) throws Exception {
+		ModelAndView modelAndView) throws Exception {
 		System.out.println("HandlerIntercepter1----------postHandle");
 
 	}

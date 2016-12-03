@@ -74,6 +74,12 @@
 </bean>
 <!-- 拦截器 多个拦截器顺序执行 -->
 <mvc:interceptors>
+<!-- 登陆认证 拦截器 -->
+	<mvc:interceptor>
+	<mvc:mapping path="/**"/>
+	<bean class="cn.itcast.ssm.intercepter.LoginIntercepter"></bean>
+	</mvc:interceptor>
+
 	<mvc:interceptor>
 	<mvc:mapping path="/**"/>
 	<bean class="cn.itcast.ssm.intercepter.HandlerIntercepter1"></bean>
